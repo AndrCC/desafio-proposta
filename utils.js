@@ -1,41 +1,27 @@
 const fs = require('fs');
 
 const validateProposalId = (proposal) => {
-
     proposal = String(proposal);
 
-    console.log("separates the check code");
-    const code = proposal.substring(proposal.length - 2);
-    console.log("code", code);
+    // String convertida para número. String estava gerando comparação de tipo incorreta
+    const code = parseInt(proposal.substring(proposal.length - 2), 10);
 
-    console.log("separate the other digits");
-    const arrNumbers = proposal.split("", 8);
-    var sumEven = 0;
-    var sumOdd = 0;
+    // Convertendo dígitos de string para número antes da soma.
+    const digits = proposal.substring(0, proposal.length - 2).split("").map(Number);
+    let sumEven = 0, sumOdd = 0;
 
-    console.log("Add the even and odd values");
-    arrNumbers.forEach(element => {
-        if (element % 2 === 0) {
-            sumEven += element;
-        } else {
-            sumOdd += element;
-        }
+    digits.forEach((element) => {
+        if (element % 2 === 0) sumEven += element;
+        else sumOdd += element;
     });
+    
+    //Usando Math.abs para garantir positividade.
+    let verifyCode = Math.round(Math.abs(sumEven - sumOdd) / 2);
 
-    console.log("even", sumEven, "odd", sumOdd);
-
-    var verifyCode = 0;
-    if (sumEven > sumOdd) {
-        verifyCode = (sumEven - sumOdd) / 2;
-    } else {
-        verifyCode = (sumOdd - sumEven) / 2;
-    }
-
-    verifyCode = Math.round(verifyCode);
-
-    console.log("verifyCode", verifyCode);
     return code === verifyCode;
 };
+
+
 
 const saveFileProposals = (path, proposals) => {
 
