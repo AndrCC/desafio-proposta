@@ -8,9 +8,8 @@ class Proposal {
 
     isValid() {
         const proposalString = String(this.propostaId);
-        // Assumindo que o nrVersaoOferta é corretamente passado como os 2 últimos dígitos do propostaId
         const nrVersaoOferta = this.produto.nrVersaoOferta;
-        const digits = proposalString.slice(0, 8).split('').map(Number); // Pega apenas os 8 primeiros dígitos
+        const digits = proposalString.slice(0, 8).split('').map(Number); 
         let sumEven = 0, sumOdd = 0;
 
         digits.forEach(digit => {
